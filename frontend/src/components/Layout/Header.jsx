@@ -1,17 +1,27 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FaBars, FaTimes, FaUserPlus, FaSignInAlt, FaTasks, FaPlusCircle } from 'react-icons/fa';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { FaBars, FaTimes, FaUserPlus, FaSignInAlt, FaTasks, FaPlusCircle, FaSignOutAlt } from 'react-icons/fa';
+import { useAuth } from '../../context/AuthContext';
 import './Header.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-  const navLinks = [
-    { name: 'Sign Up', path: '/register', icon: <FaUserPlus /> },
-    { name: 'Login', path: '/login', icon: <FaSignInAlt /> },
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+    setIsMenuOpen(false);
+  };
+
+  const navLinks = user ? [
     { name: 'Task Dashboard', path: '/dashboard', icon: <FaTasks /> },
     { name: 'Create Task', path: '/create-task', icon: <FaPlusCircle /> },
+  ] : [
+    { name: 'Sign Up', path: '/register', icon: <FaUserPlus /> },
+    { name: 'Login', path: '/login', icon: <FaSignInAlt /> },
   ];
 
   return (
@@ -39,10 +49,20 @@ const Header = () => {
                 </Link>
               </li>
             ))}
+            {user && (
+              <li>
+                <button onClick={handleLogout} className="nav-link logout-btn">
+                  <span className="nav-icon"><FaSignOutAlt /></span>
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
-          <button className="cta-button">
-            Start Managing Tasks Today
-          </button>
+          {!user && (
+            <button className="cta-button" onClick={() => navigate('/register')}>
+              Start Managing Tasks Today
+            </button>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -71,10 +91,20 @@ const Header = () => {
                 </Link>
               </li>
             ))}
+            {user && (
+              <li>
+                <button onClick={handleLogout} className="mobile-nav-link logout-btn">
+                  <span className="mobile-nav-icon"><FaSignOutAlt /></span>
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
-          <button className="mobile-cta-button">
-            Start Managing Tasks Today
-          </button>
+          {!user && (
+            <button className="mobile-cta-button" onClick={() => { navigate('/register'); setIsMenuOpen(false); }}>
+              Start Managing Tasks Today
+            </button>
+          )}
         </div>
       </div>
     </header>

@@ -100,7 +100,7 @@ const getUserTasks = asyncHandler(async (req, res) => {
   const statistics = {
     total: tasks.length,
     todo: tasks.filter(t => t.status === 'todo').length,
-    inProgress: tasks.filter(t => t.status === 'in_progress').length,
+    inProgress: tasks.filter(t => t.status === 'in-progress').length,
     review: tasks.filter(t => t.status === 'review').length,
     completed: tasks.filter(t => t.status === 'completed').length,
     overdue: tasks.filter(t => {
@@ -303,7 +303,7 @@ const getTaskStatistics = asyncHandler(async (req, res) => {
   const statistics = {
     totalTasks: tasks.length,
     completedTasks: tasks.filter(t => t.status === 'completed').length,
-    inProgressTasks: tasks.filter(t => t.status === 'in_progress').length,
+    inProgressTasks: tasks.filter(t => t.status === 'in-progress').length,
     overdueTasks: tasks.filter(t => {
       if (!t.dueDate || t.status === 'completed') return false;
       return new Date(t.dueDate) < new Date();
@@ -333,7 +333,7 @@ const getTaskStatistics = asyncHandler(async (req, res) => {
     // Tasks by status for charts
     statistics.teamTasksByStatus = {
       todo: allTasks.filter(t => t.status === 'todo').length,
-      inProgress: allTasks.filter(t => t.status === 'in_progress').length,
+      inProgress: allTasks.filter(t => t.status === 'in-progress').length,
       review: allTasks.filter(t => t.status === 'review').length,
       completed: statistics.teamCompletedTasks,
     };

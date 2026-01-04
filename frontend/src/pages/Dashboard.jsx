@@ -18,55 +18,14 @@ const Dashboard = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const tasks = [
-    {
-      id: 1,
-      title: 'Complete Project Proposal',
-      description: 'Finalize the client proposal document with budget estimates',
-      priority: 'high',
-      status: 'in-progress',
-      dueDate: '2024-12-20',
-      assignedBy: 'John Manager',
-      progress: 75
-    },
-    {
-      id: 2,
-      title: 'Team Meeting Preparation',
-      description: 'Prepare agenda and materials for weekly team sync',
-      priority: 'medium',
-      status: 'todo',
-      dueDate: '2024-12-15',
-      assignedBy: 'Sarah Lead',
-      progress: 0
-    },
-    {
-      id: 3,
-      title: 'API Integration Testing',
-      description: 'Test the new payment gateway integration',
-      priority: 'high',
-      status: 'review',
-      dueDate: '2024-12-18',
-      assignedBy: 'Tech Lead',
-      progress: 90
-    },
-    {
-      id: 4,
-      title: 'Documentation Update',
-      description: 'Update user documentation for new features',
-      priority: 'low',
-      status: 'completed',
-      dueDate: '2024-12-10',
-      assignedBy: 'Doc Team',
-      progress: 100
-    }
-  ];
+  const tasks = [];
 
   const stats = {
-    total: 12,
-    completed: 5,
-    inProgress: 3,
-    pending: 4,
-    overdue: 1
+    total: 0,
+    completed: 0,
+    inProgress: 0,
+    pending: 0,
+    overdue: 0
   };
 
   const filters = [

@@ -1,20 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaLinkedin, FaPaperPlane } from 'react-icons/fa';
+import { useAuth } from '../../context/AuthContext';
 import './Footer.css';
 
 const Footer = () => {
+  const { user } = useAuth();
+
   const quickLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Task Dashboard', path: '/dashboard' },
-    { name: 'Create Task', path: '/create-task' },
-    { name: 'Edit Task', path: '/edit-task' },
+    { name: 'Home', path: user ? '/dashboard' : '/' },
+    { name: 'Task Dashboard', path: user ? '/dashboard' : '/register' },
+    { name: 'Create Task', path: user ? '/create-task' : '/register' },
+    { name: 'Edit Task', path: user ? '/edit-task' : '/register' },
   ];
 
   const accountLinks = [
     { name: 'Sign Up', path: '/register' },
     { name: 'Login', path: '/login' },
-    { name: 'My Dashboard', path: '/dashboard' },
+    { name: 'My Dashboard', path: user ? '/dashboard' : '/register' },
     { name: 'Help', path: '/help' },
   ];
 

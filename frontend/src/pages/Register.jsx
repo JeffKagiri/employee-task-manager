@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaLock, FaUserPlus } from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
 
 const Register = () => {
@@ -15,6 +16,7 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const departments = [
     'IT',
@@ -98,16 +100,10 @@ const Register = () => {
     setLoading(true);
     
     try {
-      // TODO: Replace with actual API call
-      console.log('Registration attempt:', formData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, redirect to dashboard
+      await register(formData);
       navigate('/dashboard');
     } catch (error) {
-      setErrors({ general: 'Registration failed. Please try again.' });
+      setErrors({ general: error.response?.data?.message || 'Registration failed. Please try again.' });
     } finally {
       setLoading(false);
     }
