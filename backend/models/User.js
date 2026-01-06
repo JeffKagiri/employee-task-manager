@@ -37,6 +37,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  gender: {
+    type: String,
+    enum: ['male', 'female', 'other'],
+    default: 'other',
+  },
   avatar: {
     type: String,
     default: '',
@@ -58,27 +63,23 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Hash password before saving
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  
-  try {
+// Hash password and update timestamp before saving
+userSchema.pre('save', async function () {
+  // Update timestamp
+  this.updatedAt = Date.now();
+
+  // Hash password if modified
+  if (this.isModified('password')) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
   }
-});
-
-// Update updatedAt timestamp
-userSchema.pre('save', function (next) {
-  this.updatedAt = Date.now();
-  next();
 });
 
 // Compare password method
 userSchema.methods.matchPassword = async function (enteredPassword) {
+  if (!this.password) {
+    throw new Error('Password not found in user record');
+  }
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

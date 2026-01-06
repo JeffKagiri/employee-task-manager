@@ -6,7 +6,7 @@ const generateToken = require('../utils/generateToken');
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, role, department, position } = req.body;
+  const { name, email, password, role, department, position, gender } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -21,13 +21,14 @@ const registerUser = asyncHandler(async (req, res) => {
     role: role || 'employee',
     department,
     position,
+    gender,
   });
 
   if (user) {
     // Update last login
     user.lastLogin = Date.now();
     await user.save();
-    
+
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -56,7 +57,7 @@ const loginUser = asyncHandler(async (req, res) => {
     // Update last login
     user.lastLogin = Date.now();
     await user.save();
-    
+
     res.json({
       _id: user._id,
       name: user.name,
@@ -78,7 +79,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id).select('-password');
-  
+
   if (user) {
     res.json(user);
   } else {
@@ -98,8 +99,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.email = req.body.email || user.email;
     user.department = req.body.department || user.department;
     user.position = req.body.position || user.position;
+    user.gender = req.body.gender || user.gender;
     user.avatar = req.body.avatar || user.avatar;
-    
+
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -129,10 +131,63 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.json({ message: 'Logged out successfully' });
 });
 
+// @desc    Google Login
+// @route   POST /api/auth/google
+// @access  Public
+const googleLogin = asyncHandler(async (req, res) => {
+  const { token } = req.body;
+
+  // Verify access token by fetching user info
+  const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+  if (!response.ok) {
+    res.status(401);
+    throw new Error('Invalid Google Token');
+  }
+
+  const { name, email, picture } = await response.json();
+
+  let user = await User.findOne({ email });
+
+  if (user) {
+    user.lastLogin = Date.now();
+    // Update avatar if not set
+    if (!user.avatar) {
+      user.avatar = picture;
+    }
+    await user.save();
+  } else {
+    // Create new user (Generate random password)
+    const randomPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+    user = await User.create({
+      name,
+      email,
+      password: randomPassword,
+      avatar: picture,
+      role: 'employee', // Default role
+    });
+  }
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    department: user.department,
+    position: user.position,
+    gender: user.gender,
+    avatar: user.avatar,
+    token: generateToken(user._id),
+  });
+});
+
 module.exports = {
   registerUser,
   loginUser,
   getUserProfile,
   updateUserProfile,
   logoutUser,
+  googleLogin,
 };
