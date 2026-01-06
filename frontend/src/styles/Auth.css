@@ -5,11 +5,9 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-xl) var(--spacing-md);
-  background: linear-gradient(
-    135deg,
-    var(--primary-light) 0%,
-    var(--white) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--primary-light) 0%,
+      var(--white) 100%);
   margin-top: 80px;
 }
 
@@ -80,13 +78,16 @@
 }
 
 @keyframes shake {
+
   0%,
   100% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(-5px);
   }
+
   75% {
     transform: translateX(5px);
   }
@@ -261,9 +262,10 @@
 
 /* Social Login */
 .social-login {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: center;
   gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
 }
 
 .social-button {
@@ -278,6 +280,8 @@
   font-weight: 500;
   color: var(--gray-dark);
   transition: all var(--transition-normal) ease;
+  min-width: 200px;
+  /* Ensure it has some presence */
 }
 
 .social-button:hover {
@@ -299,6 +303,19 @@
 .social-button.github:hover {
   border-color: #333;
   background: rgba(51, 51, 51, 0.1);
+}
+
+.social-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--gray-border);
+  background: var(--gray-light);
+}
+
+.social-button:disabled:hover {
+  transform: none;
+  border-color: var(--gray-border);
+  background: var(--gray-light);
 }
 
 /* Auth Footer */

@@ -12,14 +12,18 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import CreateTask from './pages/CreateTask';
 
 // Import styles
 import './styles/global.css';
+
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <AuthProvider>
       <div className="App">
+        <ScrollToTop />
         <Header />
         <main>
           <Routes>
@@ -33,7 +37,17 @@ function App() {
             } />
             <Route path="/create-task" element={
               <ProtectedRoute>
-                <h1>Create Task Page</h1>
+                <CreateTask />
+              </ProtectedRoute>
+            } />
+            <Route path="/edit-task/:id" element={
+              <ProtectedRoute>
+                <CreateTask />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <h1>Profile Settings (Coming Soon)</h1>
               </ProtectedRoute>
             } />
             <Route path="/demo" element={<h1>Demo Page</h1>} />

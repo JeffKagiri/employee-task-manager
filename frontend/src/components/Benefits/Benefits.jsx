@@ -36,9 +36,9 @@ const Benefits = () => {
             <h2 className="benefits-title">
               Stop Losing Track of Important Work
             </h2>
-            
+
             <p className="benefits-intro">
-              Scattered notes, forgotten reminders, and missed deadlines create unnecessary stress. 
+              Scattered notes, forgotten reminders, and missed deadlines create unnecessary stress.
               TaskTrack centralizes everything in one secure platform, so you can focus on getting things done instead of remembering what needs to be done.
             </p>
 
@@ -59,7 +59,7 @@ const Benefits = () => {
 
             {/* CTA Button */}
             <Link to="/register" className="btn btn-primary benefits-cta">
-              Get Your Dashboard
+              Go To Dashboard
               <FaArrowRight className="cta-icon" />
             </Link>
           </div>
@@ -73,7 +73,7 @@ const Benefits = () => {
                   <div className="progress-value">75%</div>
                 </div>
               </div>
-              
+
               <div className="checklist-items">
                 {[
                   { task: 'Review Project Plan', completed: true },
@@ -90,7 +90,7 @@ const Benefits = () => {
                   </div>
                 ))}
               </div>
-              
+
               <div className="checklist-stats">
                 <div className="stat">
                   <div className="stat-number">3</div>

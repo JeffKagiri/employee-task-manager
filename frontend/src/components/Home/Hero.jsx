@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom';
 import { FaShieldAlt, FaCheckCircle, FaLock } from 'react-icons/fa';
 import './Hero.css';
 
+import { useAuth } from '../../context/AuthContext';
+
 const Hero = () => {
+  const { user } = useAuth();
+
   return (
     <section className="hero-section">
       {/* Background Elements */}
       <div className="hero-bg-element blue-blur"></div>
       <div className="hero-bg-element green-blur"></div>
-      
+
       <div className="container hero-container">
         <div className="hero-grid">
           {/* Left Column - Content */}
@@ -18,21 +22,18 @@ const Hero = () => {
               Organize Your Tasks.<br />
               <span className="hero-highlight">Boost Your Productivity.</span>
             </h1>
-            
+
             <p className="hero-subheadline">
-              TaskTrack helps you manage daily tasks with a secure, personal dashboard. 
+              TaskTrack helps you manage daily tasks with a secure, personal dashboard.
               Track work, meet deadlines, and stay organized—all in one simple platform.
             </p>
-            
+
             <div className="hero-cta-group">
-              <Link to="/register" className="btn btn-primary hero-btn-primary">
-                Get Started Free
-              </Link>
-              <Link to="/demo" className="btn btn-secondary hero-btn-secondary">
-                View Demo
+              <Link to={user ? "/dashboard" : "/register"} className="btn btn-primary hero-btn-primary">
+                {user ? "Go To Dashboard" : "Get Started Free"}
               </Link>
             </div>
-            
+
             <div className="hero-trust">
               <FaShieldAlt className="trust-icon" />
               <span className="trust-text">
@@ -40,7 +41,7 @@ const Hero = () => {
               </span>
             </div>
           </div>
-          
+
           {/* Right Column - Visual */}
           <div className="hero-visual">
             <div className="hero-image-wrapper">
@@ -65,7 +66,7 @@ const Hero = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Floating Badge */}
                 <div className="floating-badge top-right">
                   <FaCheckCircle className="badge-icon" />
@@ -73,7 +74,7 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Decorative Badge */}
             <div className="decorative-badge bottom-left">
               <FaLock className="badge-icon" />

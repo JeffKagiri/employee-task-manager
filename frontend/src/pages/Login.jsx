@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
 
@@ -12,7 +13,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, googleLogin } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,33 +32,33 @@ const Login = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.email) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
+
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
+
     return newErrors;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    
+
     setLoading(true);
-    
+
     try {
       await login(formData);
       navigate('/dashboard');
@@ -67,6 +68,21 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        setLoading(true);
+        await googleLogin(tokenResponse.access_token);
+        navigate('/dashboard');
+      } catch (error) {
+        setErrors({ general: 'Google Login Failed' });
+      } finally {
+        setLoading(false);
+      }
+    },
+    onError: () => setErrors({ general: 'Google Login Failed' }),
+  });
 
   return (
     <div className="auth-page">
@@ -137,8 +153,8 @@ const Login = () => {
               </Link>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary auth-button"
               disabled={loading}
             >
@@ -157,13 +173,13 @@ const Login = () => {
             </div>
 
             <div className="social-login">
-              <button type="button" className="social-button google">
+              <button
+                type="button"
+                className="social-button google"
+                onClick={() => handleGoogleLogin()}
+              >
                 <img src="https://www.google.com/favicon.ico" alt="Google" />
                 Google
-              </button>
-              <button type="button" className="social-button github">
-                <img src="https://github.com/favicon.ico" alt="GitHub" />
-                GitHub
               </button>
             </div>
 

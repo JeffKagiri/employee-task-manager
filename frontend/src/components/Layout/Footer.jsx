@@ -11,7 +11,6 @@ const Footer = () => {
     { name: 'Home', path: user ? '/dashboard' : '/' },
     { name: 'Task Dashboard', path: user ? '/dashboard' : '/register' },
     { name: 'Create Task', path: user ? '/create-task' : '/register' },
-    { name: 'Edit Task', path: user ? '/edit-task' : '/register' },
   ];
 
   const accountLinks = [
@@ -39,19 +38,19 @@ const Footer = () => {
               <h3 className="footer-logo-text">Employee Task Manager</h3>
             </div>
             <p className="footer-description">
-              TaskTrack helps you organize daily tasks with a secure, personal dashboard. 
+              TaskTrack helps you organize daily tasks with a secure, personal dashboard.
               Stay on top of deadlines and boost your productivity.
             </p>
             <div className="social-links">
-              <a href="#" className="social-link" aria-label="Facebook">
+              <button className="social-link" aria-label="Facebook">
                 <FaFacebook />
-              </a>
-              <a href="#" className="social-link" aria-label="Twitter">
+              </button>
+              <button className="social-link" aria-label="Twitter">
                 <FaTwitter />
-              </a>
-              <a href="#" className="social-link" aria-label="LinkedIn">
+              </button>
+              <button className="social-link" aria-label="LinkedIn">
                 <FaLinkedin />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -61,7 +60,11 @@ const Footer = () => {
             <ul className="footer-links">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.path} className="footer-link">
+                  <Link
+                    to={link.path}
+                    className="footer-link"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -75,7 +78,11 @@ const Footer = () => {
             <ul className="footer-links">
               {accountLinks.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.path} className="footer-link">
+                  <Link
+                    to={link.path}
+                    className="footer-link"
+                    onClick={() => window.scrollTo(0, 0)}
+                  >
                     {link.name}
                   </Link>
                 </li>

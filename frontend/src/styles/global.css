@@ -75,6 +75,21 @@
 }
 
 /* Base styles */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  /* Header height */
+  scroll-snap-type: y mandatory;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-snap-type: none;
+    scroll-padding-top: 70px;
+    /* Smaller header on mobile */
+  }
+}
+
 body {
   font-family: var(--font-body);
   color: var(--black);
@@ -190,6 +205,7 @@ img {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -204,6 +220,7 @@ img {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -214,9 +231,11 @@ img {
 .text-center {
   text-align: center;
 }
+
 .text-left {
   text-align: left;
 }
+
 .text-right {
   text-align: right;
 }
@@ -224,15 +243,19 @@ img {
 .mt-1 {
   margin-top: var(--spacing-xs);
 }
+
 .mt-2 {
   margin-top: var(--spacing-sm);
 }
+
 .mt-3 {
   margin-top: var(--spacing-md);
 }
+
 .mt-4 {
   margin-top: var(--spacing-lg);
 }
+
 .mt-5 {
   margin-top: var(--spacing-xl);
 }
@@ -240,15 +263,19 @@ img {
 .mb-1 {
   margin-bottom: var(--spacing-xs);
 }
+
 .mb-2 {
   margin-bottom: var(--spacing-sm);
 }
+
 .mb-3 {
   margin-bottom: var(--spacing-md);
 }
+
 .mb-4 {
   margin-bottom: var(--spacing-lg);
 }
+
 .mb-5 {
   margin-bottom: var(--spacing-xl);
 }
@@ -256,15 +283,19 @@ img {
 .p-1 {
   padding: var(--spacing-xs);
 }
+
 .p-2 {
   padding: var(--spacing-sm);
 }
+
 .p-3 {
   padding: var(--spacing-md);
 }
+
 .p-4 {
   padding: var(--spacing-lg);
 }
+
 .p-5 {
   padding: var(--spacing-xl);
 }
@@ -272,27 +303,35 @@ img {
 .flex {
   display: flex;
 }
+
 .flex-col {
   flex-direction: column;
 }
+
 .items-center {
   align-items: center;
 }
+
 .justify-center {
   justify-content: center;
 }
+
 .justify-between {
   justify-content: space-between;
 }
+
 .gap-1 {
   gap: var(--spacing-xs);
 }
+
 .gap-2 {
   gap: var(--spacing-sm);
 }
+
 .gap-3 {
   gap: var(--spacing-md);
 }
+
 .gap-4 {
   gap: var(--spacing-lg);
 }
@@ -300,15 +339,19 @@ img {
 .grid {
   display: grid;
 }
+
 .grid-cols-1 {
   grid-template-columns: 1fr;
 }
+
 .grid-cols-2 {
   grid-template-columns: repeat(2, 1fr);
 }
+
 .grid-cols-3 {
   grid-template-columns: repeat(3, 1fr);
 }
+
 .grid-cols-4 {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -318,9 +361,11 @@ img {
   h1 {
     font-size: var(--text-5xl);
   }
+
   h2 {
     font-size: var(--text-4xl);
   }
+
   h3 {
     font-size: var(--text-3xl);
   }
@@ -340,9 +385,11 @@ img {
   h1 {
     font-size: var(--text-4xl);
   }
+
   h2 {
     font-size: var(--text-3xl);
   }
+
   h3 {
     font-size: var(--text-2xl);
   }

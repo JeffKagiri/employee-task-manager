@@ -6,14 +6,30 @@ import './Header.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const dropdownRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
     setIsMenuOpen(false);
+    setIsProfileOpen(false);
   };
 
   const navLinks = user ? [
@@ -50,18 +66,39 @@ const Header = () => {
               </li>
             ))}
             {user && (
-              <li>
-                <button onClick={handleLogout} className="nav-link logout-btn">
-                  <span className="nav-icon"><FaSignOutAlt /></span>
-                  Logout
+              <li className="profile-dropdown-container" ref={dropdownRef}>
+                <button
+                  className="nav-link profile-btn"
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                >
+                  <div className="avatar-small">
+                    {user.avatar ? (
+                      <img src={user.avatar} alt="Profile" />
+                    ) : user.gender === 'male' ? (
+                      <img src="https://avatar.iran.liara.run/public/boy" alt="Male Profile" />
+                    ) : user.gender === 'female' ? (
+                      <img src="https://avatar.iran.liara.run/public/girl" alt="Female Profile" />
+                    ) : (
+                      <div className="avatar-placeholder">{user.name.charAt(0).toUpperCase()}</div>
+                    )}
+                  </div>
+                  <span className="user-name">{user.name}</span>
                 </button>
+
+                {/* Dropdown Menu */}
+                <div className={`dropdown-menu ${isProfileOpen ? 'show' : ''}`}>
+                  <Link to="/profile" className="dropdown-item" onClick={() => setIsProfileOpen(false)}>Profile Settings</Link>
+                  <button onClick={handleLogout} className="dropdown-item logout-item">
+                    <FaSignOutAlt /> Logout
+                  </button>
+                </div>
               </li>
             )}
           </ul>
           {!user && (
-            <button className="cta-button" onClick={() => navigate('/register')}>
+            <Link to="/register" className="cta-button">
               Start Managing Tasks Today
-            </button>
+            </Link>
           )}
         </nav>
 

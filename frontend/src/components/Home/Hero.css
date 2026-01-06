@@ -1,13 +1,16 @@
 /* Hero Section */
 .hero-section {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    var(--primary-light) 0%,
-    var(--white) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--primary-light) 0%,
+      var(--white) 100%);
   padding: calc(100px + var(--spacing-2xl)) 0 var(--spacing-2xl) 0;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
 }
 
 .hero-bg-element {
@@ -68,6 +71,7 @@
 .hero-highlight {
   color: var(--primary-blue);
   background: linear-gradient(45deg, var(--primary-blue), var(--accent-cyan));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -295,6 +299,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -302,10 +307,12 @@
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }

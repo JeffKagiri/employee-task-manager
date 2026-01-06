@@ -2,6 +2,11 @@
 .features-section {
   padding: var(--spacing-2xl) 0;
   background-color: var(--white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
 }
 
 .features-header {
@@ -15,6 +20,7 @@
   color: var(--black);
   margin-bottom: var(--spacing-lg);
   background: linear-gradient(45deg, var(--black), var(--primary-blue));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -46,11 +52,9 @@
 
 /* Feature Card */
 .feature-card {
-  background: linear-gradient(
-    135deg,
-    var(--primary-light) 0%,
-    var(--white) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--primary-light) 0%,
+      var(--white) 100%);
   border: 1px solid var(--gray-border);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
